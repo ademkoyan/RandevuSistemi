@@ -6,6 +6,8 @@ public abstract class SaglikHizmeti
     private int _sureDakika;
     private decimal _ucret;
 
+    public Guid Id { get; init; } = Guid.NewGuid();
+    
     public string Ad
     {
         get => _ad;

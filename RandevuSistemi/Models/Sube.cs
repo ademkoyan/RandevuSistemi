@@ -4,7 +4,9 @@ public class Sube
 {
     private readonly List<CalismaSaati> _calismaSaatleri = new();
     private readonly List<Bolum> _bolumler = new();
-
+    
+    public Guid Id { get; init; } = Guid.NewGuid();
+    
     public string Ad { get; }
     public string Adres { get; }
 
