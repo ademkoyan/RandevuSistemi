@@ -163,4 +163,9 @@ public class RandevuServisi
 
     private bool HastaMesgulMu(Hasta hasta, DateOnly tarih, TimeOnly baslangic, TimeOnly bitis)
         => _randevular.Any(r => r.Hasta.Id == hasta.Id && r.Cakisiyor(tarih, baslangic, bitis));
+
+    // Dosyadan yüklenen randevuyu kontrol yapmadan listeye koyar (veri zaten geçerli kabul edilir
+    internal void RandevuYukle(Randevu randevu) => _randevular.Add(randevu);
+    
+    
 }
