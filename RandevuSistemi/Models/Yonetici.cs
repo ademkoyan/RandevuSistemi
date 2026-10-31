@@ -4,8 +4,9 @@ public class Yonetici : Kullanici
 {
     public Kurum Kurum { get; }
 
-    public Yonetici(string ad, string soyad, string email, string sifre, Kurum kurum)
-        : base(ad, soyad, email, sifre)
+    internal Yonetici(Guid id, string ad, string soyad, string email, string sifreHash, string tuz,
+        Kurum kurum)
+        : base(id, ad, soyad, email, sifreHash, tuz)
     {
         ArgumentNullException.ThrowIfNull(kurum);
         Kurum = kurum;
@@ -22,12 +23,6 @@ public class Yonetici : Kullanici
     
     
     // Dosyadan yükleme için
-    internal Yonetici(Guid id, string ad, string soyad, string email, string sifreHash, string tuz,
-        Kurum kurum)
-        : base(id, ad, soyad, email, sifreHash, tuz)
-    {
-        ArgumentNullException.ThrowIfNull(kurum);
-        Kurum = kurum;
-    }
+
     
 }

@@ -5,14 +5,27 @@ public class Hasta : Kullanici
     public string Tckn { get; }
     public DateOnly DogumTarihi { get; }
 
+    // Yeni hasta oluşturma (şifre hash'lenir)
     public Hasta(string ad, string soyad, string email, string sifre,
-                 string tckn, DateOnly dogumTarihi)
+        string tckn, DateOnly dogumTarihi)
         : base(ad, soyad, email, sifre)
     {
         if (!TcknGecerliMi(tckn))
             throw new ArgumentException("Geçersiz TC kimlik numarası.");
         if (dogumTarihi > DateOnly.FromDateTime(DateTime.Today))
             throw new ArgumentException("Doğum tarihi gelecekte olamaz.");
+
+        Tckn = tckn;
+        DogumTarihi = dogumTarihi;
+    }
+
+    // Dosyadan yükleme için (hash ve tuz aynen alınır)
+    internal Hasta(Guid id, string ad, string soyad, string email, string sifreHash, string tuz,
+        string tckn, DateOnly dogumTarihi)
+        : base(id, ad, soyad, email, sifreHash, tuz)
+    {
+        if (!TcknGecerliMi(tckn))
+            throw new ArgumentException("Geçersiz TC kimlik numarası.");
 
         Tckn = tckn;
         DogumTarihi = dogumTarihi;
@@ -27,7 +40,6 @@ public class Hasta : Kullanici
         "Kendi randevusunu iptal etme"
     };
 
-    // TCKN doğrulama algoritması (resmi kural)
     public static bool TcknGecerliMi(string? tckn)
     {
         if (tckn is null || tckn.Length != 11 || !tckn.All(char.IsDigit) || tckn[0] == '0')
