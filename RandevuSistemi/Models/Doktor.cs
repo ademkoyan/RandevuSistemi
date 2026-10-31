@@ -10,6 +10,16 @@ public class Doktor : Kullanici
     public IReadOnlyList<SaglikHizmeti> Hizmetler => _hizmetler;
     public IReadOnlyList<UygunlukAraligi> Uygunluklar => _uygunluklar;
 
+    
+    // Yeni doktor oluşturma (şifre hash'lenir)
+    public Doktor(string ad, string soyad, string email, string sifre, string uzmanlik)
+        : base(ad, soyad, email, sifre)
+    {
+        if (string.IsNullOrWhiteSpace(uzmanlik))
+            throw new ArgumentException("Uzmanlık alanı boş olamaz.");
+        Uzmanlik = uzmanlik;
+    }
+    
     // Dosyadan yükleme için (hizmet ve uygunluklar sonradan eklenir)
     internal Doktor(Guid id, string ad, string soyad, string email, string sifreHash, string tuz,
         string uzmanlik)
