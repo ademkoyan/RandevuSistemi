@@ -133,4 +133,29 @@ public class Randevu
     public override string ToString()
         => $"{Tarih:dd.MM.yyyy} {Baslangic:HH:mm}-{Bitis:HH:mm} | {HizmetAdi} | " +
            $"{Doktor.TamAd} / {Hasta.TamAd} | {Ucret:N2} TL | {Durum}";
+    
+    // Dosyadan yükleme için: snapshot değerleri ve durum aynen geri konur
+    internal Randevu(Guid id, Hasta hasta, Doktor doktor, SaglikHizmeti hizmet, Sube sube,
+        DateOnly tarih, TimeOnly baslangic,
+        string hizmetAdi, int sureDakika, decimal ucret,
+        RandevuDurumu durum, DateTime olusturmaZamani)
+    {
+        Id = id;
+        Hasta = hasta;
+        Doktor = doktor;
+        Hizmet = hizmet;
+        Sube = sube;
+        Tarih = tarih;
+        Baslangic = baslangic;
+
+        HizmetAdi = hizmetAdi;
+        SureDakika = sureDakika;
+        Ucret = ucret;
+        Bitis = baslangic.AddMinutes(sureDakika);
+
+        Durum = durum;
+        OlusturmaZamani = olusturmaZamani;
+    }
+    
+    
 }
