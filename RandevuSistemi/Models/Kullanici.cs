@@ -8,10 +8,10 @@ public abstract class Kullanici
     private string _ad = "";
     private string _soyad = "";
     private string _email = "";
-    private string _sifreHash = "";   // private: dışarıdan görülemez
+    private string _sifreHash = "";
     private string _tuz = "";
 
-    public Guid Id { get; } = Guid.NewGuid();
+    public Guid Id { get; }
 
     public string Ad
     {
@@ -50,13 +50,33 @@ public abstract class Kullanici
 
     public string TamAd => $"{Ad} {Soyad}";
 
+    // Yeni kullanıcı oluşturma: şifre hash'lenir
     protected Kullanici(string ad, string soyad, string email, string sifre)
     {
+        Id = Guid.NewGuid();
         Ad = ad;
         Soyad = soyad;
         Email = email;
         SifreyiDegistir(sifre);
     }
+
+    // Dosyadan yükleme: şifre yeniden hash'lenmez, kayıtlı hash ve tuz aynen alınır
+    protected Kullanici(Guid id, string ad, string soyad, string email, string sifreHash, string tuz)
+    {
+        if (string.IsNullOrWhiteSpace(sifreHash) || string.IsNullOrWhiteSpace(tuz))
+            throw new ArgumentException("Kayıtlı şifre bilgisi eksik.");
+
+        Id = id;
+        Ad = ad;
+        Soyad = soyad;
+        Email = email;
+        _sifreHash = sifreHash;
+        _tuz = tuz;
+    }
+
+    // internal: sadece bu proje (veri katmanı) okuyabilir, dışarıya açık değildir
+    internal string SifreHash => _sifreHash;
+    internal string Tuz => _tuz;
 
     public void SifreyiDegistir(string yeniSifre)
     {
@@ -70,7 +90,6 @@ public abstract class Kullanici
     public bool SifreDogrula(string sifre)
         => SifreYardimcisi.Dogrula(sifre, _tuz, _sifreHash);
 
-    // Çok biçimlilik: her rol bunları kendine göre doldurur
     public abstract string RolAdi { get; }
     public abstract IReadOnlyList<string> Yetkiler { get; }
 
