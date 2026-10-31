@@ -60,4 +60,14 @@ public class Doktor : Kullanici
 
     public bool UygunMu(DayOfWeek gun, TimeOnly baslangic, TimeOnly bitis)
         => UygunlukBul(gun, baslangic, bitis) != null;
+    
+    // Dosyadan yükleme için (hizmet ve uygunluklar sonradan eklenir)
+    internal Doktor(Guid id, string ad, string soyad, string email, string sifreHash, string tuz,
+        string uzmanlik)
+        : base(id, ad, soyad, email, sifreHash, tuz)
+    {
+        if (string.IsNullOrWhiteSpace(uzmanlik))
+            throw new ArgumentException("Uzmanlık alanı boş olamaz.");
+        Uzmanlik = uzmanlik;
+    }
 }

@@ -19,4 +19,15 @@ public class Yonetici : Kullanici
         "Çalışan kaydetme",
         "Tüm randevuları görme ve yönetme"
     };
+    
+    
+    // Dosyadan yükleme için
+    internal Yonetici(Guid id, string ad, string soyad, string email, string sifreHash, string tuz,
+        Kurum kurum)
+        : base(id, ad, soyad, email, sifreHash, tuz)
+    {
+        ArgumentNullException.ThrowIfNull(kurum);
+        Kurum = kurum;
+    }
+    
 }
