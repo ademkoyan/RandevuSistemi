@@ -127,3 +127,5 @@ public sealed class HastaMenusu : KullaniciMenusu
         Console.WriteLine(secilen.Hizmet.HazirlikTalimati());
     }
 }
+
+
